@@ -13,6 +13,7 @@ public class Satellite extends CelestialBody{
     pushMatrix();
     rotateZ(radians(super.turningSpeed));
     translate(distance,0,0);
+    rotateZ(radians(super.turningSpeed));
     text(super.name,0,-super.dimension*2);
     shape(super.pshape);
     popMatrix();

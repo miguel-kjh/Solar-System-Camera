@@ -1,17 +1,14 @@
 //import gifAnimation.*;
 
 
-float anguleX         = 0;
-float anguleY         = 0;
-float px              = 0;
-float py              = 0;
-String pathBackgorund = "data_image/2k_stars_milky_way.jpg";
 
+String pathBackgorund = "data_image/2k_stars_milky_way.jpg";
+CameraController camera;
 SystemController solarSystem;
 KeyController keyController;
 PImage bg;
 float x,y;
-int wordSize = 30;
+int wordSize   = 30;
 int countFrame = 0;
 /*final int maxFrame = 10;
 GifMaker gif;*/
@@ -27,6 +24,11 @@ void setup(){
   textSize(wordSize);
   x = height/2.0;
   y = width/2.0;
+  camera = new CameraController(
+    new Point(0,0,y/tan(PI*30.0/180.0)),
+    new Point(0,0,0),
+    0
+    );
   /*gif = new GifMaker(this,"animation.gif");
   gif.setRepeat(0);*/
 }
@@ -54,7 +56,8 @@ void draw(){
       println("############### ERROR ##################");
     }
   }
-  camera(x-anguleX, y-anguleY, y, x-px, y-py, 0, 0, 1, 0);
+  //camera(x-anguleX, y-anguleY, y, x-px, y-py, 0, sin(radians(ang)), cos(radians(ang)), 0);
+  camera.setCamera();
   translate(x,y,0);
   solarSystem.moveSystem();
   keyController.moveScreen();
@@ -69,13 +72,21 @@ void keyReleased(){
   keyController.updateKeysReleased();
 }
 
+void mouseWheel(MouseEvent event){
+  float e = event.getCount();
+  if(e < 0){
+    camera.moveZoom(Direction.NEGATIVE);
+  } else {
+    camera.moveZoom(Direction.POSITIVE);
+  }
+}
+
 
 class KeyController{
-  private final int moveAxes = 10;
   private boolean[] keyPosibles;
   
   public KeyController(){
-    keyPosibles = new boolean[8];
+    keyPosibles = new boolean[10];
   }
   
   public void updateKeysPressed(){
@@ -102,6 +113,12 @@ class KeyController{
       }
       if(keyCode == LEFT ){
         keyPosibles[7] = true;
+      }
+      if(key == 'e' || key == 'E'){
+        keyPosibles[8] = true;
+      }
+      if(key == 'q' || key == 'Q'){
+        keyPosibles[9] = true;
       }
   }
   
@@ -131,6 +148,12 @@ class KeyController{
       if(keyCode == LEFT ){
         keyPosibles[7] = false;
       }
+      if(key == 'e' || key == 'E'){
+        keyPosibles[8] = false;
+      }
+      if(key == 'q' || key == 'Q'){
+        keyPosibles[9] = false;
+      }
   }
   
   private int getKeyPressed(){
@@ -146,29 +169,35 @@ class KeyController{
     int index = getKeyPressed();
     switch(index) {
       case 0:
-        anguleX += moveAxes;
+        camera.moveEyeX(Direction.POSITIVE);
         break;
       case 1:
-        anguleX -= moveAxes;
+        camera.moveEyeX(Direction.NEGATIVE);
         break;
       case 2:
-        anguleY -= moveAxes;
+        camera.moveEyeY(Direction.POSITIVE);
         break;
       case 3:
-        anguleY += moveAxes;
+        camera.moveEyeY(Direction.NEGATIVE);
         break;
       case 4:
-        py += moveAxes;
+        camera.moveCenterY(Direction.POSITIVE);
         break;
       case 5:
-        py -= moveAxes;
+        camera.moveCenterY(Direction.NEGATIVE);
         break;
       case 6:
-        px += moveAxes; 
+        camera.moveCenterX(Direction.NEGATIVE); 
         break;
       case 7:
-        px -= moveAxes;
-        break;  
+        camera.moveCenterX(Direction.POSITIVE);
+        break;
+      case 8:
+        camera.moveAngule(Direction.POSITIVE);
+        break; 
+      case 9:
+        camera.moveAngule(Direction.NEGATIVE);
+        break; 
       default:
         break;
     }
