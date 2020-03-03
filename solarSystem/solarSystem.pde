@@ -54,7 +54,7 @@ void draw(){
       println("############### ERROR ##################");
     }
   }
-  camera(x-anguleX, y-anguleY, y / tan(PI*30.0 / 180.0), x-px, y-py, 0, 0, 1, 0);
+  camera(x-anguleX, y-anguleY, y, x-px, y-py, 0, 0, 1, 0);
   translate(x,y,0);
   solarSystem.moveSystem();
   keyController.moveScreen();

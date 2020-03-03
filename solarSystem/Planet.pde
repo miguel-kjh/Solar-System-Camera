@@ -17,6 +17,7 @@ public class Planet extends CelestialBody{
     pushMatrix();
     rotateY(radians(super.turningSpeed));
     translate(distance,0,0);
+    rotateY(radians(super.turningSpeed));
     text(super.name,0,-super.dimension*2);
     shape(super.pshape);
     for(Satellite satellite:listOfSatellite){
