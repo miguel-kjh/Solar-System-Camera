@@ -1,16 +1,16 @@
 //import gifAnimation.*;
 
 
-float z               = 0;
-float anguleX         = -45;
+float anguleX         = 0;
 float anguleY         = 0;
+float px              = 0;
+float py              = 0;
 String pathBackgorund = "data_image/2k_stars_milky_way.jpg";
 
 SystemController solarSystem;
 KeyController keyController;
-float x;
-float y;
 PImage bg;
+float x,y;
 int wordSize = 30;
 int countFrame = 0;
 /*final int maxFrame = 10;
@@ -22,11 +22,11 @@ void setup(){
   keyController = new KeyController();
   solarSystem.loadData();
   bg = loadImage(pathBackgorund);
-  x  = width/2;
-  y  = height/2;
   fill(255,255,0);
   textAlign(CENTER,CENTER);
   textSize(wordSize);
+  x = height/2.0;
+  y = width/2.0;
   /*gif = new GifMaker(this,"animation.gif");
   gif.setRepeat(0);*/
 }
@@ -54,9 +54,8 @@ void draw(){
       println("############### ERROR ##################");
     }
   }
-  translate(x,y,z);
-  rotateX(radians(anguleX));
-  rotateY(radians(anguleY));
+  camera(x-anguleX, y-anguleY, y / tan(PI*30.0 / 180.0), x-px, y-py, 0, 0, 1, 0);
+  translate(x,y,0);
   solarSystem.moveSystem();
   keyController.moveScreen();
   //setFrame();
@@ -70,20 +69,9 @@ void keyReleased(){
   keyController.updateKeysReleased();
 }
 
-void mouseWheel(MouseEvent event) {
-  float e = event.getCount();
-  int zoom = 100;
-  if(e < 0){
-    z += zoom;
-  } else {
-    z -= zoom;
-  }  
-}
-
 
 class KeyController{
-  private final int zoom = 15;
-  private final int moveAxes = 2;
+  private final int moveAxes = 10;
   private boolean[] keyPosibles;
   
   public KeyController(){
@@ -114,15 +102,6 @@ class KeyController{
       }
       if(keyCode == LEFT ){
         keyPosibles[7] = true;
-      }
-      
-      if(key == 'r' || key == 'R'){
-        x = width/2;
-        y = height/2;
-      }
-      if(key == 'f' || key == 'F'){
-        anguleX = -45;
-        anguleY = 0;
       }
   }
   
@@ -167,29 +146,29 @@ class KeyController{
     int index = getKeyPressed();
     switch(index) {
       case 0:
-        y += zoom;
-        break;
-      case 1:
-        y -= zoom;
-        break;
-      case 2:
-        x += zoom;
-        break;
-      case 3:
-        x -= zoom;
-        break;
-      case 4:
-        anguleX -= moveAxes;
-        break;
-      case 5:
         anguleX += moveAxes;
         break;
-      case 6:
-        anguleY += moveAxes;
+      case 1:
+        anguleX -= moveAxes;
         break;
-      case 7:
+      case 2:
         anguleY -= moveAxes;
         break;
+      case 3:
+        anguleY += moveAxes;
+        break;
+      case 4:
+        py += moveAxes;
+        break;
+      case 5:
+        py -= moveAxes;
+        break;
+      case 6:
+        px += moveAxes; 
+        break;
+      case 7:
+        px -= moveAxes;
+        break;  
       default:
         break;
     }
