@@ -10,6 +10,7 @@ PImage bg;
 float x,y;
 int wordSize   = 30;
 int countFrame = 0;
+Ship ship;
 /*final int maxFrame = 10;
 GifMaker gif;*/
 
@@ -22,13 +23,14 @@ void setup(){
   fill(255,255,0);
   textAlign(CENTER,CENTER);
   textSize(wordSize);
-  x = height/2.0;
-  y = width/2.0;
+  x = width/2.0;
+  y = height/2.0;
   camera = new CameraController(
     new Point(0,0,y/tan(PI*30.0/180.0)),
     new Point(0,0,0),
     0
     );
+  ship = new Ship(0,y,width,y, "data_image/panel.jpg");
   /*gif = new GifMaker(this,"animation.gif");
   gif.setRepeat(0);*/
 }
@@ -56,11 +58,15 @@ void draw(){
       println("############### ERROR ##################");
     }
   }
-  //camera(x-anguleX, y-anguleY, y, x-px, y-py, 0, sin(radians(ang)), cos(radians(ang)), 0);
+  hint(ENABLE_DEPTH_TEST);
+  pushMatrix();
   camera.setCamera();
   translate(x,y,0);
   solarSystem.moveSystem();
   keyController.moveScreen();
+  popMatrix();
+  hint(DISABLE_DEPTH_TEST);
+  ship.createShip();
   //setFrame();
 }
 
@@ -72,21 +78,11 @@ void keyReleased(){
   keyController.updateKeysReleased();
 }
 
-void mouseWheel(MouseEvent event){
-  float e = event.getCount();
-  if(e < 0){
-    camera.moveZoom(Direction.NEGATIVE);
-  } else {
-    camera.moveZoom(Direction.POSITIVE);
-  }
-}
-
-
 class KeyController{
   private boolean[] keyPosibles;
   
   public KeyController(){
-    keyPosibles = new boolean[10];
+    keyPosibles = new boolean[12];
   }
   
   public void updateKeysPressed(){
@@ -119,6 +115,12 @@ class KeyController{
       }
       if(key == 'q' || key == 'Q'){
         keyPosibles[9] = true;
+      }
+      if(key == 'r' || key == 'R'){
+        keyPosibles[10] = true;
+      }
+      if(key == 'f' || key == 'F'){
+        keyPosibles[11] = true;
       }
   }
   
@@ -153,6 +155,12 @@ class KeyController{
       }
       if(key == 'q' || key == 'Q'){
         keyPosibles[9] = false;
+      }
+      if(key == 'r' || key == 'R'){
+        keyPosibles[10] = false;
+      }
+      if(key == 'f' || key == 'F'){
+        keyPosibles[11] = false;
       }
   }
   
@@ -197,6 +205,12 @@ class KeyController{
         break; 
       case 9:
         camera.moveAngule(Direction.NEGATIVE);
+        break;
+      case 10:
+        camera.moveZoom(Direction.NEGATIVE);
+        break;
+      case 11:
+        camera.moveZoom(Direction.POSITIVE);
         break; 
       default:
         break;
