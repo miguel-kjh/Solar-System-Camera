@@ -1,8 +1,6 @@
 //import gifAnimation.*;
-
-
-
-String pathBackgorund = "data_image/2k_stars_milky_way.jpg";
+String pathBackgorund;
+boolean isException;
 CameraController camera;
 SystemController solarSystem;
 KeyController keyController;
@@ -11,12 +9,14 @@ float x,y;
 int wordSize   = 30;
 int countFrame = 0;
 Ship ship;
+Mode mode;
 /*final int maxFrame = 10;
 GifMaker gif;*/
 
 void setup(){
   size(900,491, P3D);
   solarSystem = new SystemController();
+  pathBackgorund = "data_image/2k_stars_milky_way.jpg";
   keyController = new KeyController();
   solarSystem.loadData();
   bg = loadImage(pathBackgorund);
@@ -25,12 +25,14 @@ void setup(){
   textSize(wordSize);
   x = width/2.0;
   y = height/2.0;
+  isException = true;
   camera = new CameraController(
     new Point(0,0,y/tan(PI*30.0/180.0)),
     new Point(0,0,0),
     0
     );
   ship = new Ship(0,y,width,y, "data_image/panel.jpg");
+  mode = new Mode();
   /*gif = new GifMaker(this,"animation.gif");
   gif.setRepeat(0);*/
 }
@@ -44,8 +46,21 @@ void setup(){
 }*/
 
 
-boolean isException = true;
 void draw(){
+  controlMonitorException();
+  hint(ENABLE_DEPTH_TEST);
+  pushMatrix();
+  mode.moveCamera();
+  translate(x,y,-300);
+  solarSystem.moveSystem();
+  keyController.moveScreen();
+  popMatrix();
+  hint(DISABLE_DEPTH_TEST);
+  mode.paintOverShape();
+  //setFrame();
+}
+
+void controlMonitorException(){
   try{
     background(bg);
   }catch(RuntimeException e){
@@ -58,16 +73,6 @@ void draw(){
       println("############### ERROR ##################");
     }
   }
-  hint(ENABLE_DEPTH_TEST);
-  pushMatrix();
-  camera.setCamera();
-  translate(x,y,0);
-  solarSystem.moveSystem();
-  keyController.moveScreen();
-  popMatrix();
-  hint(DISABLE_DEPTH_TEST);
-  ship.createShip();
-  //setFrame();
 }
 
 void keyPressed(){
@@ -78,6 +83,49 @@ void keyReleased(){
   keyController.updateKeysReleased();
 }
 
+class Mode{
+  private boolean isCameraMode;
+  private int countFrame = 0;
+  private int maxCountFrame = 100;
+  private int rangeY = 150;
+  private boolean blinker;
+  
+  public Mode(){
+    isCameraMode = false;
+    blinker      = true;
+  }
+  
+  public void ChangeMode(){
+    isCameraMode = !isCameraMode;
+  }
+  
+  public void moveCamera(){
+    if(isCameraMode){
+      camera.setCamera();
+    }
+  }
+  
+  public boolean isCameraActivated(){
+    return isCameraMode;
+  }
+  
+  public void paintOverShape(){
+    if(isCameraMode){
+      ship.createShip();
+    } else {
+      if(countFrame >= maxCountFrame){
+        countFrame = 0;
+        blinker = !blinker;
+      }
+      if(blinker){
+        text("PRESS ENTER TO SWITCH TO NAVIGATION MODE",x,y+rangeY);
+      }
+      countFrame++;
+    }
+  }
+  
+}
+
 class KeyController{
   private boolean[] keyPosibles;
   
@@ -86,45 +134,54 @@ class KeyController{
   }
   
   public void updateKeysPressed(){
-      if(key == 'w' || key == 'W'){
+      if(mode.isCameraActivated() && (key == 'w' || key == 'W')){
         keyPosibles[0] = true; 
       }
-      if(key == 's' || key == 'S'){
+      if(mode.isCameraActivated() && (key == 's' || key == 'S')){
         keyPosibles[1] = true; 
       }
-      if(key == 'a' || key == 'A'){
+      if(mode.isCameraActivated() && (key == 'a' || key == 'A')){
         keyPosibles[2] = true;
       }
-      if(key == 'd' || key == 'D'){
+      if(mode.isCameraActivated() && (key == 'd' || key == 'D')){
         keyPosibles[3] = true;
       }
-      if(keyCode == UP ){
+      if(mode.isCameraActivated() && keyCode == UP ){
         keyPosibles[4] = true;
       }
-      if(keyCode == DOWN ){
+      if(mode.isCameraActivated() && keyCode == DOWN ){
         keyPosibles[5] = true;
       }
-      if(keyCode == RIGHT ){
+      if(mode.isCameraActivated() && keyCode == RIGHT ){
         keyPosibles[6] = true;
       }
-      if(keyCode == LEFT ){
+      if(mode.isCameraActivated() && keyCode == LEFT ){
         keyPosibles[7] = true;
       }
-      if(key == 'e' || key == 'E'){
+      if(mode.isCameraActivated() && (key == 'e' || key == 'E')){
         keyPosibles[8] = true;
       }
-      if(key == 'q' || key == 'Q'){
+      if(mode.isCameraActivated() && (key == 'q' || key == 'Q')){
         keyPosibles[9] = true;
       }
-      if(key == 'r' || key == 'R'){
+      if(mode.isCameraActivated() && (key == 'r' || key == 'R')){
         keyPosibles[10] = true;
       }
-      if(key == 'f' || key == 'F'){
+      if(mode.isCameraActivated() && (key == 'f' || key == 'F')){
         keyPosibles[11] = true;
+      }
+      if(mode.isCameraActivated() && (key == 'f' || key == 'F')){
+        keyPosibles[11] = true;
+      }
+      if( keyCode == ENTER){
+        mode.ChangeMode();
       }
   }
   
   public void updateKeysReleased(){
+      if(!mode.isCameraActivated()){
+        return;
+      }
       if(key == 'w' || key == 'W'){
         keyPosibles[0] = false; 
       }
@@ -211,7 +268,7 @@ class KeyController{
         break;
       case 11:
         camera.moveZoom(Direction.POSITIVE);
-        break; 
+        break;
       default:
         break;
     }

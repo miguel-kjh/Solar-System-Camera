@@ -5,7 +5,7 @@ enum Direction{
 
 public class CameraController {
   private Point eye;
-  private Point center;
+  private Point center,initialCenter;
   private float cameraAngule;
   private final float increaseEye = 10;
   private float angleX,angleY = 0;
@@ -13,9 +13,10 @@ public class CameraController {
   private final float increaseAngule = 2;
   
   public CameraController(Point eye, Point center,float cameraAngule){
-    this.eye          = eye;
-    this.center       = center; 
-    this.cameraAngule = cameraAngule;
+    this.eye           = eye;
+    this.center        = center;
+    this.initialCenter = center;
+    this.cameraAngule  = cameraAngule;
   }
   
   public void setCamera(){
@@ -49,7 +50,11 @@ public class CameraController {
       center.z =  point.x*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
       angleX += radians(increaseRotate);
     }
-    if (angleX > 2*PI || angleX < 0) angleX = 0;
+    if (angleX >= 2*PI || angleX <= 0){
+      println("vuelta completa");
+      center.movePointTo(initialCenter);
+      angleX = 0;
+    }
     println("Rotar sobre Y");
     println(angleX);
     println(center);
@@ -67,7 +72,11 @@ public class CameraController {
       center.z =  point.y*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
       angleY += radians(increaseRotate);
     }
-    if (angleY > 2*PI || angleY < 0) angleY = 0;
+    if (angleY >= 2*PI || angleY <= 0){
+      println("vuelta completa");
+      center.movePointTo(initialCenter);
+      angleY = 0;
+    }
     println("Rotar sobre X");
     println(angleY);
     println(center);

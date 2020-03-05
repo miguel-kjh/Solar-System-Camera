@@ -15,8 +15,14 @@ public class Point {
     this.z = z;
   }
   
+  public void movePointTo(Point newPosition){
+    this.x = newPosition.x;
+    this.y = newPosition.y;
+    this.z = newPosition.z;
+  }
+  
   public Point getTranslate(Point point){
-    return new Point(x - point.x,y - point.y,z - point.z);
+    return new Point(this.x - point.x,this.y - point.y,this.z - point.z);
   }
   
   @Override
