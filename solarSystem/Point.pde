@@ -25,6 +25,10 @@ public class Point {
     return new Point(this.x - point.x,this.y - point.y,this.z - point.z);
   }
   
+  public Point clone(){ 
+    return new Point(this.x,this.y,this.z);      
+  } 
+  
   @Override
   public String toString(){
     return "[ " + x + "," + y + "," + z + "]";

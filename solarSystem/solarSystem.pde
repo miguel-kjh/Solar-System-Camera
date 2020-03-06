@@ -28,7 +28,7 @@ void setup(){
   isException = true;
   camera = new CameraController(
     new Point(0,0,y/tan(PI*30.0/180.0)),
-    new Point(0,0,0),
+    new Point(0,0,-1000),
     0
     );
   ship = new Ship(0,y,width,y, "data_image/panel.jpg");
@@ -96,6 +96,7 @@ class Mode{
   }
   
   public void ChangeMode(){
+    camera.resetCamera();
     isCameraMode = !isCameraMode;
   }
   
@@ -134,16 +135,16 @@ class KeyController{
   }
   
   public void updateKeysPressed(){
-      if(mode.isCameraActivated() && (key == 'w' || key == 'W')){
+      if(mode.isCameraActivated() && (key == 'a' || key == 'A')){
         keyPosibles[0] = true; 
       }
-      if(mode.isCameraActivated() && (key == 's' || key == 'S')){
+      if(mode.isCameraActivated() && (key == 'd' || key == 'D')){
         keyPosibles[1] = true; 
       }
-      if(mode.isCameraActivated() && (key == 'a' || key == 'A')){
+      if(mode.isCameraActivated() && (key == 'r' || key == 'R')){
         keyPosibles[2] = true;
       }
-      if(mode.isCameraActivated() && (key == 'd' || key == 'D')){
+      if(mode.isCameraActivated() && (key == 'f' || key == 'F')){
         keyPosibles[3] = true;
       }
       if(mode.isCameraActivated() && keyCode == UP ){
@@ -158,19 +159,16 @@ class KeyController{
       if(mode.isCameraActivated() && keyCode == LEFT ){
         keyPosibles[7] = true;
       }
-      if(mode.isCameraActivated() && (key == 'e' || key == 'E')){
+      if(mode.isCameraActivated() && (key == 'o' || key == 'O')){
         keyPosibles[8] = true;
       }
-      if(mode.isCameraActivated() && (key == 'q' || key == 'Q')){
+      if(mode.isCameraActivated() && (key == 'p' || key == 'P')){
         keyPosibles[9] = true;
       }
-      if(mode.isCameraActivated() && (key == 'r' || key == 'R')){
+      if(mode.isCameraActivated() && (key == 'w' || key == 'W')){
         keyPosibles[10] = true;
       }
-      if(mode.isCameraActivated() && (key == 'f' || key == 'F')){
-        keyPosibles[11] = true;
-      }
-      if(mode.isCameraActivated() && (key == 'f' || key == 'F')){
+      if(mode.isCameraActivated() && (key == 's' || key == 'S')){
         keyPosibles[11] = true;
       }
       if( keyCode == ENTER){
@@ -182,17 +180,17 @@ class KeyController{
       if(!mode.isCameraActivated()){
         return;
       }
-      if(key == 'w' || key == 'W'){
+      if(key == 'a' || key == 'A'){
         keyPosibles[0] = false; 
       }
-      if(key == 's' || key == 'S'){
+      if(key == 'd' || key == 'D'){
         keyPosibles[1] = false; 
 
       }
-      if(key == 'a' || key == 'A'){
+      if(key == 'r' || key == 'R'){
         keyPosibles[2] = false;
       }
-      if(key == 'd' || key == 'D'){
+      if(key == 'f' || key == 'F'){
         keyPosibles[3] = false;
       }
       if(keyCode == UP ){
@@ -207,70 +205,63 @@ class KeyController{
       if(keyCode == LEFT ){
         keyPosibles[7] = false;
       }
-      if(key == 'e' || key == 'E'){
+      if(key == 'o' || key == 'O'){
         keyPosibles[8] = false;
       }
-      if(key == 'q' || key == 'Q'){
+      if(key == 'p' || key == 'P'){
         keyPosibles[9] = false;
       }
-      if(key == 'r' || key == 'R'){
+      if(key == 'w' || key == 'W'){
         keyPosibles[10] = false;
       }
-      if(key == 'f' || key == 'F'){
+      if(key == 's' || key == 'S'){
         keyPosibles[11] = false;
       }
   }
   
-  private int getKeyPressed(){
-    for(int i = 0; i < keyPosibles.length; i++){
-      if(keyPosibles[i]){
-        return i;
-      }
-    }
-    return -1;
-  }
-  
   public void moveScreen(){
-    int index = getKeyPressed();
-    switch(index) {
-      case 0:
-        camera.moveEyeX(Direction.POSITIVE);
-        break;
-      case 1:
-        camera.moveEyeX(Direction.NEGATIVE);
-        break;
-      case 2:
-        camera.moveEyeY(Direction.POSITIVE);
-        break;
-      case 3:
-        camera.moveEyeY(Direction.NEGATIVE);
-        break;
-      case 4:
-        camera.moveCenterY(Direction.POSITIVE);
-        break;
-      case 5:
-        camera.moveCenterY(Direction.NEGATIVE);
-        break;
-      case 6:
-        camera.moveCenterX(Direction.NEGATIVE); 
-        break;
-      case 7:
-        camera.moveCenterX(Direction.POSITIVE);
-        break;
-      case 8:
-        camera.moveAngule(Direction.POSITIVE);
-        break; 
-      case 9:
-        camera.moveAngule(Direction.NEGATIVE);
-        break;
-      case 10:
-        camera.moveZoom(Direction.NEGATIVE);
-        break;
-      case 11:
-        camera.moveZoom(Direction.POSITIVE);
-        break;
-      default:
-        break;
+    for(int i = 0; i < keyPosibles.length; i++){
+          if(!keyPosibles[i]) continue;
+          switch(i) {
+            case 0:
+              camera.moveEyeX(Direction.POSITIVE);
+              break;
+            case 1:
+              camera.moveEyeX(Direction.NEGATIVE);
+              break;
+            case 2:
+              camera.moveEyeY(Direction.POSITIVE);
+              break;
+            case 3:
+              camera.moveEyeY(Direction.NEGATIVE);
+              break;
+            case 4:
+              camera.moveCenterY(Direction.POSITIVE);
+              break;
+            case 5:
+              camera.moveCenterY(Direction.NEGATIVE);
+              break;
+            case 6:
+              camera.moveCenterX(Direction.NEGATIVE); 
+              break;
+            case 7:
+              camera.moveCenterX(Direction.POSITIVE);
+              break;
+            case 8:
+              camera.moveAngule(Direction.POSITIVE);
+              break; 
+            case 9:
+              camera.moveAngule(Direction.NEGATIVE);
+              break;
+            case 10:
+              camera.moveZoom(Direction.NEGATIVE);
+              break;
+            case 11:
+              camera.moveZoom(Direction.POSITIVE);
+              break;
+            default:
+              break;
+          }
     }
   }
   

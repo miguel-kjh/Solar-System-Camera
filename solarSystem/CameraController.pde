@@ -4,19 +4,20 @@ enum Direction{
 }
 
 public class CameraController {
-  private Point eye;
+  private Point eye, initialEye;
   private Point center,initialCenter;
-  private float cameraAngule;
+  private float cameraAngule,initialAngule;
   private final float increaseEye = 10;
-  private float angleX,angleY = 0;
-  private float increaseRotate = PI/4;
+  private float increaseRotate = 2;
   private final float increaseAngule = 2;
   
   public CameraController(Point eye, Point center,float cameraAngule){
     this.eye           = eye;
+    this.initialEye    = eye.clone();
     this.center        = center;
-    this.initialCenter = center;
+    this.initialCenter = center.clone();
     this.cameraAngule  = cameraAngule;
+    this.initialAngule = cameraAngule;
   }
   
   public void setCamera(){
@@ -29,6 +30,9 @@ public class CameraController {
     } else {
       eye.x += increaseEye;
     }
+    println("moveEyeX");
+    println(eye);
+    println(center);
   }
   
   public void moveEyeY(Direction direction){
@@ -37,6 +41,9 @@ public class CameraController {
     } else {
       eye.y += increaseEye;
     }
+    println("moveEyeY");
+    println(eye);
+    println(center);
   }
   
   public void moveCenterX(Direction direction){
@@ -44,20 +51,16 @@ public class CameraController {
     if(direction == Direction.NEGATIVE){
       center.x =  point.x*cos(radians(increaseRotate)) + point.z*sin(radians(increaseRotate));
       center.z = -point.x*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
-      angleX -= radians(increaseRotate);
     } else {
       center.x =  point.x*cos(radians(increaseRotate)) - point.z*sin(radians(increaseRotate));
       center.z =  point.x*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
-      angleX += radians(increaseRotate);
     }
-    if (angleX >= 2*PI || angleX <= 0){
-      println("vuelta completa");
-      center.movePointTo(initialCenter);
-      angleX = 0;
-    }
+    center.x += eye.x;
+    center.z += eye.z;
     println("Rotar sobre Y");
-    println(angleX);
+    println(eye);
     println(center);
+    
     
   }
   
@@ -66,19 +69,14 @@ public class CameraController {
     if(direction == Direction.NEGATIVE) {
       center.y =  point.y*cos(radians(increaseRotate)) + point.z*sin(radians(increaseRotate));
       center.z = -point.y*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
-      angleY -= radians(increaseRotate);
     } else {
-      center.y =  point.y*cos(radians(increaseRotate)) - point.z*sin(radians(increaseRotate));
-      center.z =  point.y*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
-      angleY += radians(increaseRotate);
+      center.y = point.y*cos(radians(increaseRotate))  - point.z*sin(radians(increaseRotate));
+      center.z = point.y*sin(radians(increaseRotate))  + point.z*cos(radians(increaseRotate));
     }
-    if (angleY >= 2*PI || angleY <= 0){
-      println("vuelta completa");
-      center.movePointTo(initialCenter);
-      angleY = 0;
-    }
+    center.y += eye.y;
+    center.z += eye.z;
     println("Rotar sobre X");
-    println(angleY);
+    println(eye);
     println(center);
   }
   
@@ -90,14 +88,34 @@ public class CameraController {
       cameraAngule += increaseAngule;
       if(cameraAngule >= 360) cameraAngule = 0;
     }
+    println("Rotate angule");
+    println(eye);
+    println(center);
   }
   
   public void moveZoom(Direction direction){
-    if(direction == Direction.NEGATIVE) {
-      eye.z -= increaseEye;
+    if(center.z > 0){
+      if(direction == Direction.NEGATIVE) {
+        eye.z += increaseEye;
+      } else {
+        eye.z -= increaseEye;
+      }
     } else {
-      eye.z += increaseEye;
+      if(direction == Direction.NEGATIVE) {
+        eye.z -= increaseEye;
+      } else {
+        eye.z += increaseEye;
+      }
     }
+    println("move Zoom");
+    println(eye);
+    println(center);
+  }
+  
+  public void resetCamera(){
+    eye.movePointTo(initialEye);
+    center.movePointTo(initialCenter);
+    cameraAngule = initialAngule;
   }
   
 }
