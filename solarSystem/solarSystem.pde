@@ -28,7 +28,7 @@ void setup(){
   isException = true;
   camera = new CameraController(
     new Point(0,0,y/tan(PI*30.0/180.0)),
-    new Point(0,0,-1000),
+    new Point(0,0,0),
     0
     );
   ship = new Ship(0,y,width,y, "data_image/panel.jpg");

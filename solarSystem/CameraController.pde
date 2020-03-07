@@ -8,7 +8,7 @@ public class CameraController {
   private Point center,initialCenter;
   private float cameraAngule,initialAngule;
   private final float increaseEye = 10;
-  private float increaseRotate = 2;
+  private final float increaseRotate = 2;
   private final float increaseAngule = 2;
   
   public CameraController(Point eye, Point center,float cameraAngule){
@@ -26,9 +26,11 @@ public class CameraController {
   
   public void moveEyeX(Direction direction){
     if(direction == Direction.NEGATIVE) {
-      eye.x -= increaseEye;
+      eye.x    -= increaseEye;
+      center.x -= increaseEye;
     } else {
-      eye.x += increaseEye;
+      eye.x    += increaseEye;
+      center.x += increaseEye;
     }
     println("moveEyeX");
     println(eye);
@@ -37,9 +39,11 @@ public class CameraController {
   
   public void moveEyeY(Direction direction){
     if(direction == Direction.NEGATIVE) {
-      eye.y -= increaseEye;
+      eye.y    -= increaseEye;
+      center.y -= increaseEye;
     } else {
-      eye.y += increaseEye;
+      eye.y    += increaseEye;
+      center.y += increaseEye;
     }
     println("moveEyeY");
     println(eye);
@@ -57,6 +61,7 @@ public class CameraController {
     }
     center.x += eye.x;
     center.z += eye.z;
+    center.y += eye.y;
     println("Rotar sobre Y");
     println(eye);
     println(center);
@@ -73,8 +78,8 @@ public class CameraController {
       center.y = point.y*cos(radians(increaseRotate))  - point.z*sin(radians(increaseRotate));
       center.z = point.y*sin(radians(increaseRotate))  + point.z*cos(radians(increaseRotate));
     }
-    center.y += eye.y;
-    center.z += eye.z;
+    //center.y += eye.y;
+    //center.z += eye.z;
     println("Rotar sobre X");
     println(eye);
     println(center);
@@ -89,23 +94,16 @@ public class CameraController {
       if(cameraAngule >= 360) cameraAngule = 0;
     }
     println("Rotate angule");
-    println(eye);
-    println(center);
+    println(cameraAngule);
   }
   
   public void moveZoom(Direction direction){
-    if(center.z > 0){
-      if(direction == Direction.NEGATIVE) {
-        eye.z += increaseEye;
-      } else {
-        eye.z -= increaseEye;
-      }
+    if(direction == Direction.NEGATIVE) {
+      eye.z    -= increaseEye;
+      center.z -= increaseEye;
     } else {
-      if(direction == Direction.NEGATIVE) {
-        eye.z -= increaseEye;
-      } else {
-        eye.z += increaseEye;
-      }
+      eye.z    += increaseEye;
+      center.z += increaseEye;
     }
     println("move Zoom");
     println(eye);

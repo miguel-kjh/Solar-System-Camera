@@ -13,10 +13,11 @@ public class Ship{
    public void createShip(){
      textSize(wordSize/2);
      fill(255,255,255);
-     text("A,D,R,F move the ship in X,Y",x*0.24,y*0.05);
+     text("A,D,R,F move the ship in X,Y",x*0.23,y*0.05);
      text("W,S move the ship in Z",x*0.185,y*0.15);
      text("P,O rotate the camera",x*0.18,y*0.25);
      text("keyArrow for rotate on the shaft",x*0.265,y*0.35);
+     text("Enter to reset",x*0.115,y*0.45);
      shape(rectangle);
      textSize(wordSize);
      fill(255,255,0);
