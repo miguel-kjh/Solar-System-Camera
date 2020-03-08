@@ -13,6 +13,7 @@ Correo: miguel.medina108@alu.ulpgc.es
  4.1. [Diseño de clases](#diseño-de-clases)<br>
  4.2. [Transformaciones y rotación](#transformaciones-y-rotación)<br>
  4.3. [Modelo de camara](#modelo-de-camara)<br>
+ 4.4. [Ocultación](#ocultación)<br>
 5. [Eventos y Controles](#eventos-y-controles)
 6. [Bibliografía](#bibliografía)
 
@@ -94,6 +95,15 @@ Para los satélites:
   }
 ```
 ## Modelo de camara
+El modelo que se busca para la nave es tener una camara en primera persona, para ello el método *camera* nos ofrece tres puntos para controlar:
+
+ * eye: Coordenadas para controlar la posición del ojo con respecto al sistema observable
+ * center: Coordedas que represetan al observador
+ * up: El vector vértical se usa para inducir un ángulo de inclinación a la camara
+ 
+Para tener un modelo de primera persona lo que se petendre es que el punto observable se mueva cada vez que se mueva el ojo  teniendo un efecto de movimiento continuo para 
+
+## Ocultación
 
 ## Eventos y Controles
 
