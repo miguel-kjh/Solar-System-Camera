@@ -45,8 +45,15 @@ void setup(){
   countFrame++;
 }*/
 
+void controlPanel(){
+  if(width > 2*x || height > 2*y){
+    println("It is not allowed to maximize the window, it closes every time you try");
+    exit();
+  }
+}
 
 void draw(){
+  controlPanel();
   controlMonitorException();
   hint(ENABLE_DEPTH_TEST);
   pushMatrix();
