@@ -60,8 +60,8 @@ public class CameraController {
       center.z =  point.x*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
     }
     center.x += eye.x;
-    center.z += eye.z;
     center.y += eye.y;
+    center.z += eye.z;
     println("Rotar sobre Y");
     println(eye);
     println(center);
@@ -69,17 +69,36 @@ public class CameraController {
     
   }
   
+  public void moveCenter(){
+    if(center.x >= -width/2){
+      center.z -= 10;
+      center.x -= mouseX - pmouseX;
+      center.y += mouseY - pmouseY;
+      return;
+    }
+    
+    if(center.x <= -width/2){
+      center.z += 10;
+      center.x += mouseX - pmouseX;
+      center.y += mouseY - pmouseY;
+      return;
+    }
+    center.x += mouseX - pmouseX;
+    center.y += mouseY - pmouseY;
+    println(eye);
+    println(center);
+  }
+  
   public void moveCenterY(Direction direction){
-    Point point = center.getTranslate(eye);
+    /*Point point = center.getTranslate(eye);
     if(direction == Direction.NEGATIVE) {
       center.y =  point.y*cos(radians(increaseRotate)) + point.z*sin(radians(increaseRotate));
       center.z = -point.y*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
     } else {
       center.y = point.y*cos(radians(increaseRotate))  - point.z*sin(radians(increaseRotate));
       center.z = point.y*sin(radians(increaseRotate))  + point.z*cos(radians(increaseRotate));
-    }
-    //center.y += eye.y;
-    //center.z += eye.z;
+    }*/
+    
     println("Rotar sobre X");
     println(eye);
     println(center);

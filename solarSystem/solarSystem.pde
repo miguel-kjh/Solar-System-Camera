@@ -60,6 +60,10 @@ void draw(){
   //setFrame();
 }
 
+void mouseDragged(){
+  camera.moveCenter();
+}
+
 void controlMonitorException(){
   try{
     background(bg);
