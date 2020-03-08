@@ -18,7 +18,8 @@ Correo: miguel.medina108@alu.ulpgc.es
 6. [Bibliografía](#bibliografía)
 
 ## Introducción
-Esta práctica consiste en diseñar un modelo de cámara para el sistema planetario de la práctica anterior. Se ha optado por diseñar una **vista en primera persona** simulando la navegación de una nave espacial.
+Esta práctica consiste en diseñar un modelo de cámara para el sistema planetario de la práctica anterior. Se ha optado por diseñar una **vista en primera persona** simulando la navegación de una nave espacial. 
+La aplicación está determinada para una tamaño de ventana **máximo** de 900x491 esto es así para ser más accesible a la mayoría de pantallas, si vas a ejecutarlo bajo windows es posible que te permita maximizar la ventana (opción que bajo Linux o Mac acertadamente no es posible si el programador no quiere), para solventar ese error cada vez que el usuario intente maximizar la venta el programa se cerrará.
 
 ## Demostración
 <p align="center"> 
