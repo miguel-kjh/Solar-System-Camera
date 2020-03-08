@@ -27,9 +27,9 @@ void setup(){
   y = height/2.0;
   isException = true;
   camera = new CameraController(
-    new Point(0,0,y/tan(PI*30.0/180.0)),
-    new Point(0,0,0),
-    0
+    new PVector(x,y,y/tan(PI*30.0/180.0)),
+    new PVector(0,0,-1),
+    new PVector(0,1,0)
     );
   ship = new Ship(0,y,width,y, "data_image/panel.jpg");
   mode = new Mode();
@@ -58,10 +58,6 @@ void draw(){
   hint(DISABLE_DEPTH_TEST);
   mode.paintOverShape();
   //setFrame();
-}
-
-void mouseDragged(){
-  camera.moveCenter();
 }
 
 void controlMonitorException(){
