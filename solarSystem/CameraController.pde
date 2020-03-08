@@ -7,12 +7,13 @@ public class CameraController {
   private PVector eye, initialEye;
   private PVector center,initialCenter;
   private PVector cameraUp,initialCameraUp;
-  private float yaw,pitch;
+  private float yaw,pitch,roll;
   
-  private final float initialYaw     = -90;
-  private final float initialPitch   = 0;
-  private final float speed          = 0.05;
-  private final float increaseAngule = 2;
+  private final float initialYaw      = -90;
+  private final float initialPitch    = 0;
+  private final float initialRoll     = 0;
+  private final float speed           = 10;
+  private final float increaseAngules = 2;
   
   public CameraController(PVector eye, PVector center,PVector cameraUp){
     this.eye             = eye;
@@ -23,6 +24,7 @@ public class CameraController {
     this.initialCameraUp = cameraUp.copy();
     this.yaw             = initialYaw;
     this.pitch           = initialPitch;
+    this.roll            = initialRoll;
   }
   
   public void setCamera(){
@@ -32,30 +34,14 @@ public class CameraController {
   public void moveEyeX(Direction direction){
     PVector aux = center.cross(cameraUp).normalize().mult(speed);
     if(direction == Direction.NEGATIVE) {
-      eye.x -= aux.x;
-      eye.y -= aux.y;
-      eye.z -= aux.z;
-    } else {
       eye.x += aux.x;
       eye.y += aux.y;
       eye.z += aux.z;
-    }
-    println("moveEyeX");
-    println(eye);
-    println(center);
-  }
-  
-  public void moveEyeY(Direction direction){
-    /*if(direction == Direction.NEGATIVE) {
-      eye.y    -= increaseEye;
-      center.y -= increaseEye;
     } else {
-      eye.y    += increaseEye;
-      center.y += increaseEye;
+      eye.x -= aux.x;
+      eye.y -= aux.y;
+      eye.z -= aux.z;
     }
-    println("moveEyeY");
-    println(eye);
-    println(center);*/
   }
   
   private void updateDirectorVector(){
@@ -67,101 +53,55 @@ public class CameraController {
   
   public void moveCenterX(Direction direction){
     if(direction == Direction.NEGATIVE){
-      yaw += 2;
-      /*center.x =  point.x*cos(radians(increaseRotate)) + point.z*sin(radians(increaseRotate));
-      center.z = -point.x*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));*/
+      yaw += increaseAngules;
     } else {
-      yaw -= 2;
-      /*center.x =  point.x*cos(radians(increaseRotate)) - point.z*sin(radians(increaseRotate));
-      center.z =  point.x*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));*/
+      yaw -= increaseAngules;
     }
+    if(abs(yaw) >= 360) yaw = 0;
     updateDirectorVector();
-    println("Rotar sobre Y");
-    println(eye);
-    println(center);
     
     
   }
   
-  /*public void moveCenter(){
-    if(center.x >= -width/2){
-      center.z -= 10;
-      center.x -= mouseX - pmouseX;
-      center.y += mouseY - pmouseY;
-      return;
-    }
-    
-    if(center.x <= -width/2){
-      center.z += 10;
-      center.x += mouseX - pmouseX;
-      center.y += mouseY - pmouseY;
-      return;
-    }
-    center.x += mouseX - pmouseX;
-    center.y += mouseY - pmouseY;
-    println(eye);
-    println(center);
-  }*/
-  
   public void moveCenterY(Direction direction){
-    /*Point point = center.getTranslate(eye);
-    if(direction == Direction.NEGATIVE) {
-      center.y =  point.y*cos(radians(increaseRotate)) + point.z*sin(radians(increaseRotate));
-      center.z = -point.y*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));
-    } else {
-      center.y = point.y*cos(radians(increaseRotate))  - point.z*sin(radians(increaseRotate));
-      center.z = point.y*sin(radians(increaseRotate))  + point.z*cos(radians(increaseRotate));
-    }*/
     if(direction == Direction.NEGATIVE){
-      pitch += 2;
-      /*center.x =  point.x*cos(radians(increaseRotate)) + point.z*sin(radians(increaseRotate));
-      center.z = -point.x*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));*/
+      pitch += increaseAngules;
     } else {
-      pitch -= 2;
-      /*center.x =  point.x*cos(radians(increaseRotate)) - point.z*sin(radians(increaseRotate));
-      center.z =  point.x*sin(radians(increaseRotate)) + point.z*cos(radians(increaseRotate));*/
+      pitch -= increaseAngules;
     }
-    if (pitch > 89.0f) pitch = 89.0f;
-    if (pitch < -89.0f) pitch = -89.0f;
+    if (abs(pitch) >= 360) pitch = 0;
     updateDirectorVector();
-    println("Rotar sobre X");
-    println(eye);
-    println(center);
   }
   
   public void moveAngule(Direction direction){
-    /*if(direction == Direction.NEGATIVE) {
-      cameraAngule -= increaseAngule;
-      if(abs(cameraAngule) >= 360) cameraAngule = 0;
+    if(direction == Direction.NEGATIVE) {
+      roll -= increaseAngules;
     } else {
-      cameraAngule += increaseAngule;
-      if(cameraAngule >= 360) cameraAngule = 0;
+      roll += increaseAngules;
     }
-    println("Rotate angule");
-    println(cameraAngule);*/
+    if(abs(roll) >= 360) roll = 0;
+    cameraUp.x = sin(radians(roll));
+    cameraUp.y = cos(radians(roll));
   }
   
   public void moveZoom(Direction direction){
+    PVector aux = new PVector(center.x*speed, center.y*speed, center.z*speed);
     if(direction == Direction.NEGATIVE) {
-      PVector multiple = center.mult(speed);
-      eye.x -= multiple.x;
-      eye.y -= multiple.y;
-      eye.z -= multiple.z;
+      eye.x += aux.x;
+      eye.y += aux.y;
+      eye.z += aux.z;
     } else {
-      PVector multiple = center.mult(speed);
-      eye.x += multiple.x;
-      eye.y += multiple.y;
-      eye.z += multiple.z;
+      eye.x -= aux.x;
+      eye.y -= aux.y;
+      eye.z -= aux.z;
     }
-    println("move Zoom");
-    println(eye);
-    println(center);
   }
   
   public void resetCamera(){
     
     yaw     = initialYaw;
     pitch   = initialPitch;
+    roll    = initialRoll;
     
     cameraUp.set(initialCameraUp.x,initialCameraUp.y,initialCameraUp.z);
     center.set(initialCenter.x,initialCenter.y,initialCenter.z);
