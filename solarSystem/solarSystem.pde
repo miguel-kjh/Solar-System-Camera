@@ -1,4 +1,4 @@
-import gifAnimation.*;
+//import gifAnimation.*;
 String pathBackgorund;
 boolean isException;
 CameraController camera;
@@ -10,8 +10,8 @@ int wordSize   = 30;
 int countFrame = 0;
 Ship ship;
 Mode mode;
-final int maxFrame = 10;
-GifMaker gif;
+final int maxFrame = 5;
+//GifMaker gif;
 
 void setup(){
   size(900,491, P3D);
@@ -33,17 +33,17 @@ void setup(){
     );
   ship = new Ship(0,y,width,y, "data_image/panel.jpg");
   mode = new Mode();
-  gif = new GifMaker(this,"animation.gif");
-  gif.setRepeat(0);
+  //gif = new GifMaker(this,"animation.gif");
+  //gif.setRepeat(0);
 }
 
-void setFrame(){
+/*void setFrame(){
   if(countFrame == maxFrame){
       gif.addFrame();
       countFrame = 0;
   }
   countFrame++;
-}
+}*/
 
 
 void draw(){
@@ -57,7 +57,7 @@ void draw(){
   popMatrix();
   hint(DISABLE_DEPTH_TEST);
   mode.paintOverShape();
-  setFrame();
+  //setFrame();
 }
 
 void controlMonitorException(){
