@@ -31,7 +31,7 @@ Para poder ejecutar y probar la práctica solamente se necesita clonar este repo
 - La librería **GifAnimation** para poder reproducir y guardar gifs. Como esta librería no forma parte necesaria para la correcta implementación de la práctica, en el código toda la lógica relacionada con ella se encuentra comentada, además de que afecta al rendimiento de la aplicación.En este [enlace](https://github.com/extrapixel/gif-animation) se encuentra la forma de instalarla.
 
 ## Implementación
-Se ha empleado el patrón de diseño **Composite** para implementar la relaciones entre los astros planetarios.Además se han añadido un nuevo controlador para la lógica de la camara y la clase *Point* para  ayudar al movimiento de la misma.
+Se ha empleado el patrón de diseño **Composite** para implementar la relaciones entre los astros planetarios.Además se han añadido un nuevo controlador para la lógica de la cámara y la clase *Point* para  ayudar al movimiento de la misma.
 
 ### Diseño de clases
 <p align="center"> 
@@ -95,16 +95,17 @@ Para los satélites:
   }
 ```
 ## Modelo de camara
-El modelo que se busca para la nave es tener una camara en **primera persona**, para ello el método *camera* nos ofrece tres puntos para controlar:
-
- * eye: Coordenadas para controlar la posición del ojo con respecto al sistema observable.
- * center: Coordedas que represetan al observador.
- * up: El vector vértical se usa para inducir un ángulo de inclinación a la camara.
+El modelo que se busca para la nave es tener una cámara en **primera persona**, para ello el método *camera* nos ofrece tres puntos para controlar:
  
-Para tener un modelo de primera persona lo que se petendre es que el punto observable se mueva cada vez que se mueva el ojo  teniendo un efecto de movimiento continuo lo más natural posible.Por tanto, es necesario definir tres vectores para cada una de las componenetes y operar con ellas segun lo que el usuario quiere hacer.
+ * **eye**: Coordenadas para controlar la posición del ojo con respecto al sistema observable.
+ * **center**: Coordenadas que representan al observador.
+ * **up**: El vector vertical se usa para inducir un ángulo de inclinación a la camara.
+ 
+Para tener un modelo de primera persona lo que se pretende es que el punto observable se mueva cada vez que se mueva el ojo  teniendo un efecto de movimiento continuo lo más natural posible.Por tanto, es necesario definir tres vectores para cada una de las componentes y operar con ellas según lo que el usuario quiere hacer.
+
 
 ### Movimiento
-La idea de tener una camara en tercera persona es para disponer de un camara totalmente liberada y con un movimiento fluido para ello se han de modificar el vector *eye* segun una serie de operaciones y una determinada velocidad asocidad a la nave:
+La idea de tener una cámara en primera persona es para disponer de un cámara totalmente liberada y con un movimiento fluido para ello se han de modificar el vector *eye* según una serie de operaciones y una determinada velocidad asociado a la nave:
 
  1. Si se quiere ir hacia delante o hacia atrás:
  ```java
@@ -135,19 +136,20 @@ La idea de tener una camara en tercera persona es para disponer de un camara tot
  ```
 
 ### Rotaciones
-Para mirar alrededor de la escena, tenemos que cambiar el vector *center*. Sin embargo, cambiar el vector de dirección basado en las rotaciones del mouse es un poco complicado y requiere algo de trigonemetría. 
+Para mirar alrededor de la escena, tenemos que cambiar el vector *center*. Sin embargo, cambiar el vector de dirección basado en las rotaciones es un poco complicado y requiere algo de trigonometría. 
 
 #### Ángulos de Euler
 Los ángulos de Euler son 3 valores que pueden representar cualquier rotación en 3D. Hay 3 ángulos de Euler: *pitch*, *yaw* y *roll* . La siguiente imagen les da un significado visual:
-
+ 
 <p align="center"> 
    <img src="data/euler_ang.png" alt="Ángulos de Euler"></img>
    <p align="center">Figura 3: Ángulos de Euler</p>
 </p>
+ 
+*Pitch* es el ángulo que representa cuánto estamos mirando hacia arriba o hacia abajo. El *yaw* representa cuánto estamos mirando hacia la izquierda o hacia la derecha. El *roll* resenta el ángulo de giro.
+ 
+Cada uno de los ángulos de Euler está representado por un solo valor y con la combinación de los 3 podemos calcular cualquier vector de rotación en 3D, modificando los ángulos según nuestras necesidades podemos implementar un modelo de cámara que rote sobre sí misma:
 
-*Pitch* es el ángulo que representa cuánto estamos mirando hacia arriba o hacia abajo. El *yaw* representa cuánto estamos mirando hacia la izquierda o hacia la derecha. El *roll* resenta el angulo de giro.
-
-Cada uno de los ángulos de Euler está representado por un solo valor y con la combinación de los 3 podemos calcular cualquier vector de rotación en 3D, modificando los angulos según nuestras necesidades podemos implementar un modelo de camara que rote sobre si misma:
 
 ```java
   private void updateDirectorVector(){
@@ -190,7 +192,7 @@ Cada uno de los ángulos de Euler está representado por un solo valor y con la 
 ```
 
 ## Ocultación
-Para poder representar el panel de la nave y el menú de los controles, se ha jugado con el algoritmo de ocultación que nos oferce *processing*, de hecho el panel tan solo es un rectangulo con una textura pegada pero a la hora representarlo se ha desactivado el algoritmo y guardado las coordenadas del sistema planetario, este procedimento es igual para las letras:
+Para poder representar el panel de la nave y el menú de los controles, se ha jugado con el algoritmo de ocultación que nos ofrece *processing*, de hecho el panel tan solo es un rectángulo con una textura pegada pero a la hora representarlo se ha desactivado el algoritmo y guardado las coordenadas del sistema planetario, este procedimiento es igual para las letras:
 
 ```java
   controlMonitorException();
@@ -230,7 +232,7 @@ Para poder representar el panel de la nave y el menú de los controles, se ha ju
   </tr>
   <tr>
     <td>Flechas del teclado</td>
-    <td>Mover el ángulo de visión de la camara</td>
+    <td>Mover el ángulo de visión de la cámara</td>
   </tr>
   <tr>
     <td>f</td>
@@ -245,6 +247,7 @@ Para poder representar el panel de la nave y el menú de los controles, se ha ju
     <td>Inclina la nave hacia la izquierda, se puede dar una vuelta completa</td>
   </tr>
 </table>
+
 
 ## Bibliografía
 
