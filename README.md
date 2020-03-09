@@ -1,5 +1,5 @@
 # Solar-System-Camera
-![Version](https://img.shields.io/badge/version-1.0-green)
+![Version](https://img.shields.io/badge/version-1.0-brightgreen.svg?style=flat-square)
 
 ## Autor
 Miguel Ángel Medina Ramírez <br>
