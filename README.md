@@ -20,7 +20,7 @@ Correo: miguel.medina108@alu.ulpgc.es
 ## Introducción
 Esta práctica consiste en diseñar un modelo de cámara para el sistema planetario de la práctica anterior. Se ha optado por diseñar una **vista en primera persona** simulando la navegación de una nave espacial. 
 
-La aplicación está determinada para una tamaño de ventana **máximo** de 900x491 esto es así para ser más accesible a la mayoría de pantallas, si vas a ejecutarlo bajo windows es posible que te permita maximizar la ventana (opción que bajo Linux o Mac acertadamente no es posible si el programador no quiere), para solventar ese error cada vez que el usuario intente maximizar la venta el programa se cerrará.
+La aplicación está determinada para una tamaño de ventana **máximo** de 900x491, esto es así para ser más accesible a la mayoría de pantallas. Si vas a ejecutarlo bajo windows es posible que te permita maximizar la ventana (opción que bajo Linux o Mac acertadamente no es posible si el programador no quiere), para solventar ese error cada vez que el usuario intente maximizar la venta el programa se cerrará.
 
 ## Demostración
 <p align="center"> 
@@ -33,7 +33,7 @@ Para poder ejecutar y probar la práctica solamente se necesita clonar este repo
 - La librería **GifAnimation** para poder reproducir y guardar gifs. Como esta librería no forma parte necesaria para la correcta implementación de la práctica, en el código toda la lógica relacionada con ella se encuentra comentada, además de que afecta al rendimiento de la aplicación.En este [enlace](https://github.com/extrapixel/gif-animation) se encuentra la forma de instalarla.
 
 ## Implementación
-Se ha empleado el patrón de diseño **Composite** para implementar la relaciones entre los astros planetarios.Además se han añadido un nuevo controlador para la lógica de la cámara y la clase *Point* para  ayudar al movimiento de la misma.
+Se ha empleado el patrón de diseño **Composite** para implementar las relaciones entre los astros planetarios.Además se han añadido un nuevo controlador para la lógica de la cámara.
 
 ### Diseño de clases
 <p align="center"> 
@@ -43,7 +43,7 @@ Se ha empleado el patrón de diseño **Composite** para implementar la relacione
 
 ### Transformaciones y rotación
 
-El método *move* es el encargado de implementar la lógica necesaria para representar los astros, además de haceros girar y moverse. Se han usado las primitivas básicas de processing como *pushMatrix*, *popMatrix*, *rotate* y *translate* para implementar el movimiento y rotación simulando el comportamiento de los planetas.
+El método *move* es el encargado de implementar la lógica necesaria para representar los astros, además de haceros girar y moverse. Se han usado las primitivas básicas de processing como *pushMatrix*, *popMatrix*, *rotate* y *translate* para implementar el movimiento y la rotación simulando el comportamiento de los planetas.
 
 Para las estrellas:
 
@@ -103,7 +103,7 @@ El modelo que se busca para la nave es tener una cámara en **primera persona**,
  * **center**: Coordenadas que representan al observador.
  * **up**: El vector vertical se usa para inducir un ángulo de inclinación a la camara.
  
-Para tener un modelo de primera persona lo que se pretende es que el punto observable se mueva cada vez que se mueva el ojo  teniendo un efecto de movimiento continuo lo más natural posible.Por tanto, es necesario definir tres vectores para cada una de las componentes y operar con ellas según lo que el usuario quiere hacer.
+Para tener un modelo de primera persona lo que se pretende es que el punto observable se mueva cada vez que se mueva el ojo  teniendo un efecto de movimiento continuo lo más natural posible.Por tanto, es necesario definir tres vectores para cada una de las componentes y operar con ellas según lo que el usuario quiera hacer.
 
 
 ### Movimiento
@@ -123,7 +123,7 @@ La idea de tener una cámara en primera persona es para disponer de un cámara t
     }
  ```
  
- 2.Si se quiere ir hacia los laterales:
+ 2. Si se quiere ir hacia los laterales:
  ```java
     PVector aux = center.cross(cameraUp).normalize().mult(speed);
     if(direction == Direction.NEGATIVE) {
@@ -141,7 +141,7 @@ La idea de tener una cámara en primera persona es para disponer de un cámara t
 Para mirar alrededor de la escena, tenemos que cambiar el vector *center*. Sin embargo, cambiar el vector de dirección basado en las rotaciones es un poco complicado y requiere algo de trigonometría. 
 
 #### Ángulos de Euler
-Los ángulos de Euler son 3 valores que pueden representar cualquier rotación en 3D. Hay 3 ángulos de Euler: *pitch*, *yaw* y *roll* . La siguiente imagen les da un significado visual:
+Los ángulos de Euler son 3 valores que pueden representar cualquier rotación en 3D. Existen 3 ángulos de Euler: *pitch*, *yaw* y *roll* . La siguiente imagen les da un significado visual:
  
 <p align="center"> 
    <img src="data/euler_ang.png" alt="Ángulos de Euler"></img>
